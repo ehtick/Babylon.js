@@ -14,6 +14,8 @@ export type HelpTopicId =
     | "smart-groups"
     | "keyboard-shortcuts"
     | "block-properties"
+    | "how-to-use"
+    | "variables"
     | "gltf-import-export"
     | "composite-templates";
 
@@ -351,6 +353,41 @@ export const HelpTopics: IHelpTopic[] = [
 <tr><td>Send/Receive Custom Event</td><td>Key-type list editor for event data ports.</td></tr>
 </table>
 <p><em>Scene-dependent pickers require a scene to be loaded in the Preview panel.</em></p>`,
+            },
+        ],
+    },
+    {
+        id: "how-to-use",
+        title: "How to Use (Embed Code)",
+        sections: [
+            {
+                html: `<p>Click the <b>&lt;/&gt;</b> button in the toolbar to open the <b>How to Use</b> dialog. It shows ready-to-paste code samples for loading your flow graph in your own project.</p>`,
+            },
+            {
+                heading: "From Snippet Server",
+                html: `<p>If you've saved your graph to the snippet server, the dialog pre-fills the snippet ID. Fetch the snippet JSON and use <code>ParseFlowGraphAsync()</code> from <code>@babylonjs/core/FlowGraph/flowGraphParser</code> to load it.</p>`,
+            },
+            {
+                heading: "From JSON File",
+                html: `<p>Save your graph as a JSON file, then use <code>ParseFlowGraphAsync()</code> from <code>@babylonjs/core/FlowGraph/flowGraphParser</code> to parse it. Both methods require a <code>FlowGraphCoordinator</code> tied to your scene.</p>`,
+            },
+        ],
+    },
+    {
+        id: "variables",
+        title: "Variables Panel",
+        sections: [
+            {
+                html: `<p>The <b>Variables</b> section in the right property panel lists all variables referenced by <code>GetVariable</code> and <code>SetVariable</code> blocks.</p>`,
+            },
+            {
+                heading: "Managing Variables",
+                html: `<ul>
+<li><b>+ Add</b> — creates a new variable with an auto-generated name.</li>
+<li><b>Double-click</b> a name to rename. Renaming propagates to all Get/Set blocks.</li>
+<li><b>✕</b> — deletes the variable and removes all blocks referencing it.</li>
+</ul>
+<p>Each row shows a reference count (e.g., <code>2G / 1S</code> = 2 get blocks, 1 set block).</p>`,
             },
         ],
     },

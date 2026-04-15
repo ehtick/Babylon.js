@@ -16,13 +16,13 @@ When done with an issue, update the MANUAL.md to reflect the new feature or fix,
 
 ## High (significantly impacts experience)
 
-- [ ] **No "How to Use" code export dialog** — After saving a flow graph (to file or snippet), there is no guidance on how to actually load and run it in a user's own scene. A user who builds a flow graph in the editor has no idea what code to write to consume it. **Expected:** A "How to Use" / "Embed" button in the toolbar (next to Save File / Save Snippet) that opens a dialog with copy-to-clipboard code samples showing both integration methods:
+- [x] **No "How to Use" code export dialog** — After saving a flow graph (to file or snippet), there is no guidance on how to actually load and run it in a user's own scene. A user who builds a flow graph in the editor has no idea what code to write to consume it. **Expected:** A "How to Use" / "Embed" button in the toolbar (next to Save File / Save Snippet) that opens a dialog with copy-to-clipboard code samples showing both integration methods:
     - **From snippet:** `FlowGraph.ParseFromSnippetAsync("<snippetId>", scene)` — pre-filled with the current snippet ID if the graph has been saved to the snippet server.
     - **From JSON file:** Loading the saved `.json` file and calling `FlowGraph.ParseFlowGraphAsync(data, { scene })`.
 
     The dialog should include minimal but complete boilerplate (import statements, async wrapper) so users can paste the code directly into their project.
 
-- [ ] **No variables panel** — There is no way to see all graph variables at a glance, set initial values, rename them globally, or inspect current runtime values. Users must create `GetVariable`/`SetVariable` blocks and hope the variable names match across the graph. A typo in a variable name silently creates a separate variable. **Expected:** A "Variables" panel listing all variables defined in the graph with their name, type, and default value. Users should be able to add, rename, and delete variables from this panel. Renaming should propagate to all `GetVariable`/`SetVariable` blocks referencing that name.
+- [x] **No variables panel** — There is no way to see all graph variables at a glance, set initial values, rename them globally, or inspect current runtime values. Users must create `GetVariable`/`SetVariable` blocks and hope the variable names match across the graph. A typo in a variable name silently creates a separate variable. **Expected:** A "Variables" panel listing all variables defined in the graph with their name, type, and default value. Users should be able to add, rename, and delete variables from this panel. Renaming should propagate to all `GetVariable`/`SetVariable` blocks referencing that name.
 
 - [ ] **No right-click context menu** — No context menu exists on the canvas, nodes, or links. The shared UI library has a `ContextMenu` primitive (`sharedUiComponents/src/fluent/primitives/contextMenu.tsx`) but the flow graph editor doesn't use it. Common operations require memorizing keyboard shortcuts. **Expected:** Right-click context menus for:
     - **Canvas:** Add block (opens search), Paste, Create sticky note, Create frame, Select all

@@ -44,6 +44,40 @@ The loaded scene's objects (meshes, lights, cameras, etc.) become available as r
 - **Load from file** — Import a previously saved JSON file.
 - **Load from snippet** — Enter a snippet ID to restore a graph (and its associated scene, if any).
 
+### How to Use (Embed Code)
+
+Click the **&lt;/&gt;** button in the toolbar to open the **How to Use** dialog. It shows copy-to-clipboard code samples for integrating your flow graph into a project:
+
+- **From snippet server** — Fetch the snippet JSON from `https://snippet.babylonjs.com/<snippetId>`, parse the payload, then call `ParseFlowGraphAsync(data, { coordinator })` from `@babylonjs/core/FlowGraph/flowGraphParser`.
+- **From JSON file** — Load the saved `.json` file and call `ParseFlowGraphAsync(data, { coordinator })` from `@babylonjs/core/FlowGraph/flowGraphParser`.
+
+Each code sample includes the necessary import statements and is ready to paste into your project.
+
+---
+
+## Variables Panel
+
+The **Variables** section in the property panel (right sidebar, when no block is selected) lists all variables referenced by `GetVariable` and `SetVariable` blocks in the graph.
+
+### Viewing Variables
+
+Each variable row shows:
+
+- The **variable name**
+- A reference count (`2G / 1S` means 2 GetVariable blocks and 1 SetVariable block reference it)
+
+### Adding Variables
+
+Click **+ Add** to create a new variable with an auto-generated name. The variable is registered on context 0 with an undefined default value.
+
+### Renaming Variables
+
+Double-click a variable name to edit it. Press **Enter** to confirm or **Escape** to cancel. Renaming propagates to all `GetVariable` and `SetVariable` blocks that reference the old name, and also updates the variable in all execution contexts.
+
+### Deleting Variables
+
+Click the **✕** button on a variable row to delete it. This removes all `GetVariable` and `SetVariable` blocks that reference the variable, and removes the variable from all execution contexts.
+
 ### glTF Import / Export
 
 **Importing a glTF with an interactive flow graph:**
