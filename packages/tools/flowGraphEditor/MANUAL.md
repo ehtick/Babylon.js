@@ -484,6 +484,77 @@ The editor includes blocks for controlling audio playback using the Babylon.js A
 
 ---
 
+## Right-Click Context Menus
+
+Right-click on the canvas, a node, a link, or a frame to open a context menu with relevant actions. The menu items change depending on what was clicked.
+
+### Canvas (Background)
+
+| Action              | Shortcut    | Description                                       |
+| ------------------- | ----------- | ------------------------------------------------- |
+| **Add Block...**    | Space       | Opens the block search box to add a new block     |
+| **Paste**           | Ctrl+V      | Pastes previously copied blocks                   |
+| **Create Sticky Note** | Ctrl+M  | Adds a sticky note at the click position          |
+| **Select All**      | Ctrl+A      | Selects all nodes and frames                      |
+| **Zoom to Fit**     | —           | Zooms to fit the entire graph                     |
+| **Reorganize**      | —           | Auto-layouts the graph                            |
+
+### Node(s)
+
+| Action                   | Shortcut    | Description                                               |
+| ------------------------ | ----------- | --------------------------------------------------------- |
+| **Delete**               | Del         | Deletes the selected node(s)                              |
+| **Duplicate**            | Ctrl+C/V    | Copies and pastes the selected node(s)                    |
+| **Add/Remove Breakpoint** | F9         | Toggles a breakpoint (single execution block only)        |
+| **Create Smart Group**   | Ctrl+G      | Groups 2+ selected blocks into a frame (when applicable)  |
+| **Disconnect All Ports** | —           | Disconnects all input and output ports from the selection |
+
+### Link
+
+| Action                | Shortcut | Description                          |
+| --------------------- | -------- | ------------------------------------ |
+| **Delete Connection** | Del      | Removes the selected connection line |
+
+### Frame
+
+| Action           | Shortcut | Description                                |
+| ---------------- | -------- | ------------------------------------------ |
+| **Delete Frame** | Del      | Removes the frame (keeps contained blocks) |
+| **Collapse/Expand** | —     | Toggles the frame between collapsed and expanded states |
+
+---
+
+## Port Tooltips
+
+Hover over any port icon (the colored dot or shape on a node) to see a tooltip showing:
+
+- **Port name** — the connection point's label (e.g., "a", "result", "in")
+- **Data type** — for data ports, the rich type (e.g., Number, Vector3, Boolean)
+- **Direction** — whether it's an Input or Output port
+
+Signal ports (execution flow) show "Signal Input" or "Signal Output".
+
+---
+
+## Toast Notifications
+
+Brief notifications appear in the bottom-right corner of the editor for key operations. Toasts auto-dismiss after 4 seconds and can be closed early by clicking the ✕ button.
+
+### Operations That Trigger Toasts
+
+| Event                          | Severity | Message                                   |
+| ------------------------------ | -------- | ----------------------------------------- |
+| File load success              | Success  | "Flow graph loaded from file"             |
+| File save                      | Success  | "Flow graph saved to file"                |
+| Snippet save                   | Success  | "Graph saved — ID: ... (copied to clipboard)" |
+| Snippet load success           | Success  | "Flow graph loaded from snippet ..."      |
+| Snippet save/load failure      | Error    | Error description                         |
+| Disconnect all ports           | Info     | "Disconnected all ports"                  |
+
+All toast messages are also logged to the Log panel for reference.
+
+---
+
 ## Block Property Panel
 
 Select a block on the canvas to view and edit its properties in the right-hand panel. The panel has up to four sections:

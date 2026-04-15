@@ -24,7 +24,7 @@ When done with an issue, update the MANUAL.md to reflect the new feature or fix,
 
 - [x] **No variables panel** — There is no way to see all graph variables at a glance, set initial values, rename them globally, or inspect current runtime values. Users must create `GetVariable`/`SetVariable` blocks and hope the variable names match across the graph. A typo in a variable name silently creates a separate variable. **Expected:** A "Variables" panel listing all variables defined in the graph with their name, type, and default value. Users should be able to add, rename, and delete variables from this panel. Renaming should propagate to all `GetVariable`/`SetVariable` blocks referencing that name.
 
-- [ ] **No right-click context menu** — No context menu exists on the canvas, nodes, or links. The shared UI library has a `ContextMenu` primitive (`sharedUiComponents/src/fluent/primitives/contextMenu.tsx`) but the flow graph editor doesn't use it. Common operations require memorizing keyboard shortcuts. **Expected:** Right-click context menus for:
+- [x] **No right-click context menu** — No context menu exists on the canvas, nodes, or links. The shared UI library has a `ContextMenu` primitive (`sharedUiComponents/src/fluent/primitives/contextMenu.tsx`) but the flow graph editor doesn't use it. Common operations require memorizing keyboard shortcuts. **Expected:** Right-click context menus for:
     - **Canvas:** Add block (opens search), Paste, Create sticky note, Create frame, Select all
     - **Node:** Delete, Duplicate, Add breakpoint/Remove breakpoint, Create frame from selection, Disconnect all ports
     - **Link:** Delete connection, Insert block on connection
@@ -55,11 +55,11 @@ When done with an issue, update the MANUAL.md to reflect the new feature or fix,
 
 ## Medium (quality-of-life improvements)
 
-- [ ] **No port-level tooltips or descriptions** — Block-level tooltips in the palette are comprehensive (every block has a description). However, individual ports on nodes have no documentation. A user seeing ports named `a`, `b`, `val`, `res` gets no hint about what each expects or produces. **Expected:** Hover over a port to see a tooltip with the port name, data type, and a brief description (e.g., "a (Number): The left operand"). Port descriptions could come from the block's `_registerInput`/`_registerOutput` metadata.
+- [x] **No port-level tooltips or descriptions** — Block-level tooltips in the palette are comprehensive (every block has a description). However, individual ports on nodes have no documentation. A user seeing ports named `a`, `b`, `val`, `res` gets no hint about what each expects or produces. **Expected:** Hover over a port to see a tooltip with the port name, data type, and a brief description (e.g., "a (Number): The left operand"). Port descriptions could come from the block's `_registerInput`/`_registerOutput` metadata.
 
 - [x] **No undo/redo buttons in the toolbar** — Undo/redo works via Ctrl+Z / Ctrl+Shift+Z, but there are no visible toolbar buttons. New users may not discover the feature exists. **Expected:** Undo and Redo icon buttons in the toolbar with disabled state when at the beginning/end of the history stack.
 
-- [ ] **No toast/notification system for editor operations** — Errors and validation results only appear in the log panel at the bottom. Operations like "Graph saved", "Snippet loaded", "Validation passed (0 errors)" give no immediate visual feedback in the main workspace. Users must look at the log panel to know if an action succeeded. **Expected:** Brief toast notifications (auto-dismissing after 3–5 seconds) for key operations: save/load success/failure, validation summary, snippet ID copied, etc.
+- [x] **No toast/notification system for editor operations** — Errors and validation results only appear in the log panel at the bottom. Operations like "Graph saved", "Snippet loaded", "Validation passed (0 errors)" give no immediate visual feedback in the main workspace. Users must look at the log panel to know if an action succeeded. **Expected:** Brief toast notifications (auto-dismissing after 3–5 seconds) for key operations: save/load success/failure, validation summary, snippet ID copied, etc.
 
 ## Low (nice to have)
 
