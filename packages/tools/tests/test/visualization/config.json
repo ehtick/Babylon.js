@@ -4148,6 +4148,12 @@
             "excludedEngines": ["webgl1"]
         },
         {
+            "title": "GPU Particles - Change - Color Gradient With Color2",
+            "playgroundId": "#3PCCJ0#0",
+            "referenceImage": "gpu-particles-change-color-gradient-with-color2.png",
+            "excludedEngines": ["webgl1"]
+        },
+        {
             "title": "GPU Particles - Change - Speed Range",
             "playgroundId": "#JPPZGY#0",
             "referenceImage": "gpu-particles-change-speed-range.png",
@@ -4356,6 +4362,18 @@
             "referenceImage": "gpu-particles-attractors-local.png",
             "excludedEngines": ["webgl1"],
             "errorRatio": 2.5
+        },
+        {
+            "title": "GPU Particles - From Particle System",
+            "playgroundId": "#7JQ28N#0",
+            "referenceImage": "gpu-particles-from-particle-system.png",
+            "excludedEngines": ["webgl1"]
+        },
+        {
+            "title": "GPU Particles - From Particle System - Flow Map",
+            "playgroundId": "#9H7NNG#0",
+            "referenceImage": "gpu-particles-from-particle-system-flow-map.png",
+            "excludedEngines": ["webgl1"]
         }
     ]
 }
