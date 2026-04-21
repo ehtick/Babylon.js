@@ -350,30 +350,13 @@ jobs:
                 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
                 PUPPETEER_SKIP_DOWNLOAD: "true"
 
-          - script: npx prettier --list-different "./packages/**/src/**/*.{ts,tsx,js,scss}"
+          - script: npx prettier --list-different "./packages/**/src/**/*.{ts,tsx,js,json,scss,css}"
             displayName: "Formatting"
 
-          - script: npx eslint "packages/dev/core/src/**/*.ts" --quiet --format azure-devops
-            displayName: "Linting core"
+          - script: npm run lint:check-ci
+            displayName: "Linting"
             env:
                 NODE_OPTIONS: "--max-old-space-size=8192"
-
-          - script: npx eslint "packages/dev/**/src/**/*.{ts,tsx}" --quiet --ignore-pattern "packages/dev/core/*" --format azure-devops
-            displayName: "Linting dev"
-            env:
-                NODE_OPTIONS: "--max-old-space-size=8192"
-
-          - script: npx eslint "packages/tools/**/src/**/*.{ts,tsx}" --quiet --format azure-devops
-            displayName: "Linting tools"
-            env:
-                NODE_OPTIONS: "--max-old-space-size=8192"
-
-          # DISABLED in classic pipeline:
-          # - task: Npm@1
-          #   displayName: 'Linting'
-          #   inputs:
-          #     command: custom
-          #     customCommand: 'run lint:check -- --format azure-devops'
 
           - script: npx --yes dpdm -T --no-tree ./packages/dev/core/src/**/*
             displayName: "Circular dependencies"
@@ -665,7 +648,7 @@ jobs:
                 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
                 PUPPETEER_SKIP_DOWNLOAD: "true"
 
-          - script: npm run test:playwright -w @tools/tests -- --project=webgl2 --project=webgl2-largeWorld
+          - script: npm run test:playwright -w @tools/tests -- --project=webgl2
             displayName: "WebGL2 BStack"
             env:
                 CDN_BASE_URL: "$(SNAPSHOT_CDN_URL)/$(BuildName)"
@@ -740,7 +723,7 @@ jobs:
                 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
                 PUPPETEER_SKIP_DOWNLOAD: "true"
 
-          - script: npm run test:playwright -w @tools/tests -- --project=webgpu --project=webgpu-largeWorld
+          - script: npm run test:playwright -w @tools/tests -- --project=webgpu
             displayName: "WebGPU BStack"
             retryCountOnTaskFailure: 1
             env:
