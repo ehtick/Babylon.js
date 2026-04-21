@@ -47,14 +47,14 @@ resources:
     pipelines:
         # Build completion trigger - cd-publish pipeline (Definition 15)
         - pipeline: buildCompletionTrigger
-          source: "<PUBLISH_PIPELINE_NAME>" # Replace with the YAML pipeline name once created
+          source: "Publish pipeline"
           trigger:
               branches:
                   include:
                       - master
         # Native tests artifact source - pipeline ID 36
         - pipeline: nativeTestsArtifact
-          source: "<NATIVE_TESTS_PIPELINE_NAME>" # Replace with the YAML pipeline name once created
+          source: "BabylonNative Nightly CI"
           project: ContinousIntegration
 
 variables:
