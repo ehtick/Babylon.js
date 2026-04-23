@@ -3367,6 +3367,11 @@
             "excludedEngines": ["webgl1"]
         },
         {
+            "title": "OpenPBR Transmission Roughness glTF - Combination Lights",
+            "playgroundId": "#GRQHVV#314",
+            "excludedEngines": ["webgl1"]
+        },
+        {
             "title": "OpenPBR Transmission Roughness vs IOR - Analytic Lights",
             "playgroundId": "#GRQHVV#134",
             "excludedEngines": ["webgl1"]
@@ -3532,7 +3537,7 @@
         },
         {
             "title": "OpenPBR Thin Walled Anisotropic Transmission - IBL",
-            "playgroundId": "#GRQHVV#247",
+            "playgroundId": "#GRQHVV#315",
             "excludedEngines": ["webgl1"],
             "renderCount": 5,
             "excludeFromAutomaticTesting": true
@@ -3544,7 +3549,13 @@
         },
         {
             "title": "OpenPBR Thin Walled Subsurface Anisotropy - IBL",
-            "playgroundId": "#GRQHVV#241",
+            "playgroundId": "#GRQHVV#316",
+            "excludedEngines": ["webgl1"],
+            "renderCount": 5
+        },
+        {
+            "title": "OpenPBR Thin Walled Subsurface Anisotropy - Realtime IBL",
+            "playgroundId": "#GRQHVV#318",
             "excludedEngines": ["webgl1"],
             "renderCount": 5
         },
@@ -3558,6 +3569,21 @@
             "playgroundId": "#GRQHVV#313",
             "excludedEngines": ["webgl1"],
             "renderCount": 5
+        },
+        {
+            "title": "OpenPBR Subsurface SSS Frame Graph - Shadows - IBL",
+            "playgroundId": "#PJ5JXH#115",
+            "excludedEngines": ["webgl1"]
+        },
+        {
+            "title": "OpenPBR Subsurface SSS Frame Graph - Analytic Lights",
+            "playgroundId": "#PJ5JXH#117",
+            "excludedEngines": ["webgl1"]
+        },
+        {
+            "title": "OpenPBR Subsurface SSS Frame Graph - Shadows - Combination Lights",
+            "playgroundId": "#PJ5JXH#116",
+            "excludedEngines": ["webgl1"]
         },
         {
             "title": "Background material blur",
