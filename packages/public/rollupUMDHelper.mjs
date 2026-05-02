@@ -318,6 +318,8 @@ function transpileExternalTsPlugin() {
                     esModuleInterop: true,
                     allowSyntheticDefaultImports: true,
                     experimentalDecorators: true,
+                    sourceMap: true,
+                    inlineSources: true,
                 },
             });
             return { code: result.outputText, map: result.sourceMapText || null };
@@ -525,7 +527,10 @@ export function commonUMDRollupConfiguration(options) {
                   declaration: false,
                   declarationMap: false,
                   sourceMap: true,
-                  inlineSources: false,
+                  // Embed source contents in the generated sourcemap so DevTools/playground
+                  // can display the original .ts files even when the relative source paths
+                  // (which start with `../../../../../../../`) cannot be fetched over HTTP.
+                  inlineSources: true,
                   // filterRoot set to the repo root so **/*.ts patterns match files from
                   // any package (including aliased cross-package tool sources).
                   filterRoot: REPO_ROOT,
@@ -576,15 +581,40 @@ export function commonUMDRollupConfiguration(options) {
     // `webpack:///./*` → `${webRoot}/*`, so no per-launch-config setup is
     // required for files inside packages/.  Sources outside the repo (rare,
     // e.g. some tslib re-exports) fall through to an absolute file:// URL.
+    //
+    // NOTE: When Rollup merges chained source maps from pre-compiled
+    // `packages/dev/*/dist/*.js.map` (which use `sources: ['../../src/foo.ts']`),
+    // the merged sources can end up as `…/dev/<pkg>/src/foo.ts` — i.e. lacking
+    // the `packages/` prefix — depending on how each plugin reports its sources.
+    // We pattern-match on `dev/<pkg>/src|dist/...` and `tools/<pkg>/src|dist/...`
+    // segments and rebuild a repo-relative path so the final sourcemap stays
+    // correct on both local builds and CI.
+    const PACKAGE_PATH_RE = /(?:^|[\\/])(dev|tools)[\\/]([^\\/]+)[\\/](src|dist)[\\/](.+)$/;
+    const tryRebaseToRepo = (anyPath) => {
+        const normalized = anyPath.split("\\").join("/");
+        const m = normalized.match(PACKAGE_PATH_RE);
+        if (!m) {
+            return null;
+        }
+        return `packages/${m[1]}/${m[2]}/${m[3]}/${m[4]}`;
+    };
     const sourcemapPathTransform = (relativePath, sourcemapPath) => {
         const abs = resolve(dirname(sourcemapPath), relativePath);
         const repoRel = relativeFromRepoRoot(abs);
-        if (repoRel.startsWith("..")) {
-            // Use pathToFileURL so Windows paths (drive letter + backslashes)
-            // become a valid `file:///C:/...` URL that debuggers can resolve.
-            return pathToFileURL(abs).href;
+        if (!repoRel.startsWith("..")) {
+            return `webpack:///./${repoRel}`;
         }
-        return `webpack:///./${repoRel}`;
+        // Fallback: try to recover a repo-relative path from the package layout
+        // baked into the sources (e.g. `…/dev/core/src/X.ts` → `packages/dev/core/src/X.ts`).
+        // This handles aliased/cross-package source paths like `core: ../../../dev/core/src`,
+        // which would otherwise resolve to a non-existent absolute path outside the repo.
+        const recovered = tryRebaseToRepo(abs) ?? tryRebaseToRepo(relativePath);
+        if (recovered) {
+            return `webpack:///./${recovered}`;
+        }
+        // Use pathToFileURL so Windows paths (drive letter + backslashes)
+        // become a valid `file:///C:/...` URL that debuggers can resolve.
+        return pathToFileURL(abs).href;
     };
 
     const makeSingleConfig = (inputFile, chunkName) => ({
@@ -630,7 +660,7 @@ export function commonUMDRollupConfiguration(options) {
                           declaration: false,
                           declarationMap: false,
                           sourceMap: true,
-                          inlineSources: false,
+                          inlineSources: true,
                           filterRoot: REPO_ROOT,
                           include: ["**/*.ts", "**/*.tsx"],
                       }),
