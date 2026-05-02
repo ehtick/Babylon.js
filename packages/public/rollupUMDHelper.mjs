@@ -31,6 +31,32 @@ function relativeFromRepoRoot(absPath) {
     return pathRelative(REPO_ROOT, absPath).split("\\").join("/");
 }
 
+/**
+ * Rollup plugin that rewrites `import * as styles from "*.module.scss"` to
+ * `import styles from "*.module.scss"` so that bracket-notation access like
+ * `styles["graph-canvas"]` resolves against the CSS module's class-map default
+ * export instead of an empty namespace object.
+ *
+ * Mirrors the equivalent transform in `viteToolsHelper.mjs` so source code that
+ * uses webpack-style namespace imports keeps working under both build systems.
+ */
+function cssModuleNamespaceInteropPlugin() {
+    const IMPORT_NS_RE = /\bimport\s+\*\s+as\s+(\w+)\s+from\s+(["'][^"']+\.module\.(?:scss|css|less|sass)["'])/g;
+    return {
+        name: "css-module-namespace-interop",
+        transform(code, id) {
+            if (!/\.[tj]sx?$/.test(id)) {
+                return null;
+            }
+            if (!code.includes(".module.")) {
+                return null;
+            }
+            const newCode = code.replace(IMPORT_NS_RE, (_match, name, path) => `import ${name} from ${path}`);
+            return newCode !== code ? { code: newCode, map: null } : null;
+        },
+    };
+}
+
 // ---------------------------------------------------------------------------
 // Package name mappings
 // ---------------------------------------------------------------------------
@@ -513,11 +539,17 @@ export function commonUMDRollupConfiguration(options) {
     const plugins = [
         externalsPlugin,
         aliasPlugin({ entries: aliasEntries }),
+        // Rewrite `import * as styles from "*.module.scss"` to a default import
+        // before TS/postcss see it (see plugin doc above).
+        cssModuleNamespaceInteropPlugin(),
         // Inline SVG/PNG/image assets imported from dist/ files as data URIs.
         url({ include: ["**/*.svg", "**/*.png", "**/*.jpg", "**/*.gif"], limit: Infinity }),
         // Handle SCSS/CSS imports from compiled dist/ files (tool packages).
-        // Extracts styles to a companion .css file alongside the UMD bundle.
-        postcss({ extract: true, minimize: production, use: ["sass"] }),
+        // Inject styles into <head> at runtime to match the previous webpack
+        // style-loader behavior - the editor UMDs do not have a companion
+        // <link> element loading a separate .css file. autoModules treats
+        // *.module.scss / *.module.css as CSS Modules with named exports.
+        postcss({ inject: true, extract: false, minimize: production, use: ["sass"], autoModules: true }),
         ...transpilePlugins,
         nodeResolve({ mainFields: ["browser", "module", "main"], browser: true, extensions: [".ts", ".tsx", ".js", ".jsx"] }),
         commonjs(),
@@ -607,8 +639,9 @@ export function commonUMDRollupConfiguration(options) {
             const perEntryPlugins = [
                 perEntryExternals,
                 aliasPlugin({ entries: aliasEntries }),
+                cssModuleNamespaceInteropPlugin(),
                 url({ include: ["**/*.svg", "**/*.png", "**/*.jpg", "**/*.gif"], limit: Infinity }),
-                postcss({ extract: true, minimize: production, use: ["sass"] }),
+                postcss({ inject: true, extract: false, minimize: production, use: ["sass"], autoModules: true }),
                 ...perEntryTranspilePlugins,
                 nodeResolve({ mainFields: ["browser", "module", "main"], browser: true, extensions: [".ts", ".tsx", ".js", ".jsx"] }),
                 commonjs(),
